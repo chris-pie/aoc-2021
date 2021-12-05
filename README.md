@@ -5,3 +5,4 @@ Day 1: x64 ASM
 Day 2: Tcl
 Day 3: Ada
 Day 4: Raku
+Day 5: VB.NET
