@@ -6,3 +6,4 @@ Day 2: Tcl
 Day 3: Ada
 Day 4: Raku
 Day 5: VB.NET
+Day 6: Fortran 95
