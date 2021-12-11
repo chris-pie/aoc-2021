@@ -9,4 +9,5 @@ Day 5: VB.NET
 Day 6: Fortran 95
 Day 7: Scala
 Day 8: SWI-Prolog
+Day 9: Lua
 Day 10: Racket
