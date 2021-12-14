@@ -1,0 +1,58 @@
+global results, pairs
+procedure add_elementwise(result_1, result_2)
+    ret_tab := table()
+    every k:= key(result_1) do
+        ret_tab[k] := result_1[k] + result_2[k]
+    return ret_tab
+end
+procedure count_polymers(pair, n)
+    if member(results[pair], n) then return results[pair][n]
+    ret_val := add_elementwise(
+        count_polymers(pair[1] || pairs[pair], n-1), 
+        count_polymers(pairs[pair] || pair[2], n-1)
+    )
+    ret_val[pairs[pair]] := ret_val[pairs[pair]] - 1
+    results[pair][n] := ret_val
+    return ret_val
+end
+
+procedure main()
+    num_repeats := 40
+    pairs := table()
+    results := table()
+    f := open("day 14.txt","r") | stop("cannot open file ")
+    starting_polymer := read(f)
+    read(f)
+    while line := read(f) do 
+    {
+        pair := line[1:3]
+        result := line[7:8]
+        pairs[pair] := result
+        results[pair] := table()
+        every results[pair][0] := table()
+        every results[pair][0][char(65 to 90)] := 0
+        results[pair][0][pair[1]] := results[pair][0][pair[1]] + 1
+        results[pair][0][pair[2]] := results[pair][0][pair[2]] + 1
+    }
+    close(f)
+    result := table()
+    every result[char(65 to 90)] := 0
+    every i:= 1 to *starting_polymer - 1 do
+    {
+        every j:= 1 to num_repeats do
+        {
+            count_polymers(starting_polymer[i+:2], j)
+        }
+    result := add_elementwise(result, results[starting_polymer[i+:2]][num_repeats])
+    result[starting_polymer[i]] := result[starting_polymer[i]] - 1
+
+    }
+    result[starting_polymer[1]] := result[starting_polymer[1]] + 1
+    result_list := []
+    every i:= !result do 
+    {
+        if i > 0 then push(result_list, i)
+    }
+    write(max(result_list) - min(result_list))
+
+end
