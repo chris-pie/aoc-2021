@@ -1,0 +1,111 @@
+{$mode Delphi}
+program day_11;
+uses 
+    sysutils, Contnrs;
+const
+    s = 10;
+    steps = 100;
+type
+    tuple2 = object
+        x: Integer;
+        y: Integer;
+    end;
+    tuple2p = ^tuple2;
+var
+    m: String;
+    f: text;
+    octopi: array[1..s, 1..s] of Integer;
+    flashes: array[1..s, 1..s] of Integer;
+    stack: TStack;
+    i, j, k: Integer;
+    t: tuple2p;
+    flash_count: Integer;
+    flash_count_prev: Integer;
+
+
+
+
+procedure Flash(x, y: Integer);
+
+var
+    i2, j2: Integer;
+    t: tuple2p;
+begin
+    if not (flashes[x][y] = 1) then
+    begin
+        flashes[x][y] := 1;
+        flash_count := flash_count + 1;
+        for i2:= x-1 to x+1 do
+        begin
+            if not ((i2 < 1) or (i2 > s)) then
+            for j2:= y-1 to y+1 do
+            begin
+                if not ((j2 < 1) or (j2 > s)) then
+                begin
+                    octopi[i2][j2] := octopi[i2][j2] + 1;
+                    if (flashes[i2][j2] = 0) and (octopi[i2][j2] > 9) then
+                    begin
+                        new(t);
+                        t^.x := i2;
+                        t^.y := j2;
+                        stack.Push(t);
+                    end;
+                end;
+            end;
+        end;
+    end;
+end;
+begin
+    assign(f, './day 11.txt');
+    reset(f);
+    for i:= 1 to s do
+    begin
+        readln(f,m);
+        for j:= 1 to s do
+            octopi[i][j] := StrToInt(m[j]);
+    end;
+    close(f);
+    stack := TStack.Create;
+
+    flash_count := 0;
+    flash_count_prev := 0;
+    k:= 0;
+    while (flash_count - flash_count_prev <> 100) do
+    begin
+        k := k + 1;
+        flash_count_prev := flash_count;
+        for i:= 1 to s do
+        begin
+            for j:= 1 to s do
+            begin
+                flashes[i][j] := 0;
+                if (octopi[i][j] > 9) then
+                begin
+                    octopi[i][j] := 0;
+                end;
+            end;
+        end;
+        for i:= 1 to s do
+        begin
+            for j:= 1 to s do
+            begin
+                octopi[i][j] := octopi[i][j] + 1;
+                if (flashes[i][j] = 0) and (octopi[i][j] > 9) then
+                begin
+                    new(t);
+                    t^.x := i;
+                    t^.y := j;
+                    stack.Push(t);
+                end;
+            end;
+        end;
+        while (stack.Count > 0) do
+        begin
+            t := stack.Pop;
+            Flash(t^.x, t^.y);
+            dispose(t);
+        end;
+        if (k = 100) then writeln(flash_count);
+    end;
+    writeln(k);
+end.
