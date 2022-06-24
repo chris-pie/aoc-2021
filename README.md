@@ -2,8 +2,8 @@
 Repository for Advent of Code 2021 solutions. Rules: different language each day, has to read input from a file.
 
 Day 1: x64 ASM  
-Day 2: Tcl
-Day 3: Ada
+Day 2: Tcl  
+Day 3: Ada  
 Day 4: Raku  
 Day 5: VB.NET  
 Day 6: Fortran 95  
@@ -12,5 +12,6 @@ Day 8: SWI-Prolog
 Day 9: Lua  
 Day 10: Racket  
 Day 11: Pascal (Delphi)  
+Day 12: Erlang  
 Day 14: Unicon  
-Day 21: Haskell
+Day 21: Haskell  
