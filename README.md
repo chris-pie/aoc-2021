@@ -13,5 +13,6 @@ Day 9: Lua
 Day 10: Racket  
 Day 11: Pascal (Delphi)  
 Day 12: Erlang  
+Day 13: Rust  
 Day 14: Unicon  
 Day 21: Haskell  
